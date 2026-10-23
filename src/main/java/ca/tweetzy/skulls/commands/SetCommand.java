@@ -54,6 +54,6 @@ public final class SetCommand extends Command {
 
 	@Override
 	public String getDescription() {
-		return null;
+		return "ตั้งค่าหัว (ยังไม่เปิดใช้งาน)";
 	}
 }

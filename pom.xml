@@ -7,16 +7,17 @@
     <artifactId>skulls</artifactId>
 
     <name>Skulls</name>
-    <version>3.24.0</version>
+    <version>3.25.0</version>
     <packaging>jar</packaging>
 
     <properties>
         <author>Kiran Hart</author>
         <jarName>Skulls-${project.version}</jarName>
         <main.class>${project.groupId}.${project.artifactId}.${project.name}</main.class>
-        <java.version>16</java.version>
+        <java.version>21</java.version>
         <flight.version>3.30.1</flight.version>
         <flight.path>ca.tweetzy</flight.path>
+        <universal-scheduler.version>0.1.7</universal-scheduler.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -30,13 +31,17 @@
 
     <repositories>
         <repository>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>minecraft-repo</id>
+            <url>https://libraries.minecraft.net/</url>
+        </repository>
+        <repository>
             <id>repsy</id>
             <name>Tweetzy Maven Repo On Repsy</name>
             <url>https://repo.repsy.io/mvn/kiran/tweetzy</url>
-        </repository>
-        <repository>
-            <id>nms-repo</id>
-            <url>https://repo.codemc.io/repository/nms/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
@@ -46,33 +51,13 @@
             <id>sk89q-repo</id>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
-        <repository>
-            <id>griefdefender</id>
-            <url>https://repo.glaremasters.me/repository/bloodshot</url>
-        </repository>
-        <repository>
-            <id>techscode</id>
-            <url>https://repo.techscode.com/repository/techscode-apis/</url>
-        </repository>
-        <repository>
-            <id>sonatype-oss-snapshots1</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>aikar</id>
-            <url>https://repo.aikar.co/content/groups/aikar/</url>
-        </repository>
-        <repository>
-            <id>nightexpress-releases</id>
-            <name>NightExpress's Repository</name>
-            <url>https://repo.nightexpressdev.com/releases</url>
-        </repository>
     </repositories>
+
     <dependencies>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.21.11-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -81,15 +66,27 @@
             <version>${flight.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.sk89q.worldguard</groupId>
-            <artifactId>worldguard-bukkit</artifactId>
-            <version>7.0.5</version>
+            <groupId>com.mojang</groupId>
+            <artifactId>authlib</artifactId>
+            <version>6.0.54</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.griefdefender</groupId>
-            <artifactId>api</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <groupId>com.github.Anon8281</groupId>
+            <artifactId>UniversalScheduler</artifactId>
+            <version>${universal-scheduler.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>7.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-bukkit</artifactId>
+            <version>7.0.5</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -105,44 +102,33 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>co.aikar</groupId>
-            <artifactId>taskchain-bukkit</artifactId>
-            <version>3.7.2</version>
-        </dependency>
-        <dependency>
-            <groupId>me.TechsCode</groupId>
-            <artifactId>UltraEconomyAPI</artifactId>
-            <version>1.1.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>su.nightexpress.coinsengine</groupId>
-            <artifactId>CoinsEngine</artifactId>
-            <version>2.4.1</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.48</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
     <build>
         <finalName>${jarName}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.4.2</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.13.0</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -156,8 +142,7 @@
                     <artifactSet>
                         <includes>
                             <include>${flight.path}:flight*</include>
-                            <include>co.aikar:taskchain-bukkit</include>
-                            <include>co.aikar:taskchain-core</include>
+                            <include>com.github.Anon8281:UniversalScheduler</include>
                         </includes>
                     </artifactSet>
                     <filters>
@@ -168,6 +153,9 @@
                                 <exclude>META-INF/*.DSA</exclude>
                                 <exclude>META-INF/*.RSA</exclude>
                                 <exclude>META-INF/MANIFEST.MF</exclude>
+                                <exclude>ca/tweetzy/flight/utils/colors/ColorFormatter.class</exclude>
+                                <exclude>ca/tweetzy/flight/comp/enums/CompMaterial$Data.class</exclude>
+                                <exclude>ca/tweetzy/flight/comp/enums/ServerVersion.class</exclude>
                             </excludes>
                         </filter>
                     </filters>
@@ -177,51 +165,11 @@
                             <shadedPattern>${project.groupId}.${project.artifactId}.flight</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>co.aikar.taskchain</pattern>
-                            <shadedPattern>${project.groupId}.${project.artifactId}.lib.taskchain</shadedPattern>
-                        </relocation> </relocations>
+                            <pattern>com.github.Anon8281.universalScheduler</pattern>
+                            <shadedPattern>${project.groupId}.${project.artifactId}.universalScheduler</shadedPattern>
+                        </relocation>
+                    </relocations>
                 </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
-                <executions>
-                    <execution>
-                        <id>copy-files-on-build</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>D:\Development\Spigot Servers\Latest Version\plugins</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.directory}</directory>
-                                    <include>${jarName}.jar</include>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.coderplus.maven.plugins</groupId>
-                <artifactId>copy-rename-maven-plugin</artifactId>
-                <version>1.0.1</version>
-                <executions>
-                    <execution>
-                        <id>copy-named-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <sourceFile>${project.build.directory}/${jarName}.jar</sourceFile>
-                            <destinationFile>D:\Development\Spigot Plugins\Ready Jars\${project.name}\${project.name} - v${project.version}.jar</destinationFile>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
         <resources>

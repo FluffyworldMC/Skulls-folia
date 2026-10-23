@@ -19,7 +19,6 @@
 package ca.tweetzy.skulls.listeners;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
-import ca.tweetzy.flight.nbtapi.NBT;
 import ca.tweetzy.flight.utils.PlayerUtil;
 import ca.tweetzy.skulls.Skulls;
 import ca.tweetzy.skulls.api.interfaces.PlacedSkull;
@@ -34,7 +33,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.UUID;
 
@@ -52,13 +53,14 @@ public final class SkullBlockListener implements Listener {
 		final ItemStack item = PlayerUtil.getHand(event.getPlayer());
 		if (item == null || item.getType() == CompMaterial.AIR.parseMaterial() || item.getAmount() == 0) return;
 
-		if (!NBT.get(item, nbt -> (boolean) nbt.hasTag("Skulls:ID"))) {
-			return;
-		}
+		final ItemMeta meta = item.getItemMeta();
+		if (meta == null) return;
+
+		final Integer skullId = meta.getPersistentDataContainer().get(Skulls.getSkullIdKey(), PersistentDataType.INTEGER);
+		if (skullId == null) return;
 
 		final Block block = event.getBlockPlaced();
 		if (block.getType() == CompMaterial.PLAYER_HEAD.parseMaterial() || block.getType() == CompMaterial.PLAYER_WALL_HEAD.parseMaterial()) {
-			final int skullId = Integer.parseInt(NBT.get(item, nbt -> (String) nbt.getString("Skulls:ID")));
 			Skulls.getSkullManager().addPlacedSkull(new PlacedSkullLocation(UUID.randomUUID(), skullId, block.getLocation()));
 		}
 

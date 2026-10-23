@@ -2,12 +2,16 @@ name: ${project.name}
 version: ${project.version}
 main: ${main.class}
 author: ${author}
-api-version: 1.13
+api-version: '1.21'
+folia-supported: true
+libraries:
+  - com.zaxxer:HikariCP:7.1.0
+  - org.mariadb.jdbc:mariadb-java-client:3.5.11
+  - org.xerial:sqlite-jdbc:3.53.4.0
 softdepend:
   - Vault
-  - UltraEconomy
+  - PlaceholderAPI
   - WorldGuard
   - WorldEdit
   - FastAsyncWorldEdit
-  - CoinsEngine
 commands:

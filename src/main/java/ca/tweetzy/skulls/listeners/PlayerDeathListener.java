@@ -20,10 +20,12 @@ package ca.tweetzy.skulls.listeners;
 
 import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.PlayerUtil;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.skulls.api.events.PlayerPreSkullDropEvent;
 import ca.tweetzy.skulls.api.events.PlayerSkullDropEvent;
 import ca.tweetzy.skulls.settings.Settings;
+import ca.tweetzy.skulls.utils.SkullItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Item;
@@ -49,7 +51,9 @@ public final class PlayerDeathListener implements Listener {
 
 		if (random.nextDouble() * 100D < dropChance) {
 			final Location dropLocation = player.getLocation();
-			final ItemStack skull = QuickItem.of(player).name(Settings.PLAYER_HEAD_NAME.getString().replace("%player_name%", player.getName())).make();
+			final ItemStack skull = SkullItems.applyPlayer(QuickItem.of(CompMaterial.PLAYER_HEAD)
+					.name(Settings.PLAYER_HEAD_NAME.getString().replace("%player_name%", player.getName()))
+					.make(), player);
 
 			// Send pre-skull drop event
 			PlayerPreSkullDropEvent preEvent = new PlayerPreSkullDropEvent(player, dropLocation, skull);

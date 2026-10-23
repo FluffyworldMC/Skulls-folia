@@ -44,7 +44,7 @@ public final class _2_PlacedSkullsMigration extends DataMigration {
 			statement.execute("CREATE TABLE IF NOT EXISTS " + tablePrefix + "placed_skull (" +
 					"id VARCHAR(36) NOT NULL, " +
 					"skull_id INTEGER NOT NULL," +
-					"location VARCHAR(128) NOT NULL" +
+					"location VARCHAR(255) NOT NULL" +
 					")");
 		}
 	}

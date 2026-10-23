@@ -42,6 +42,24 @@ public final class StringHelper {
 		return true;
 	}
 
+	public boolean isDouble(String value) {
+		try {
+			Double.parseDouble(value);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public double tryDouble(String value, double def) {
+		try {
+			return Double.parseDouble(value);
+		} catch (NumberFormatException e) {
+			return def;
+		}
+	}
+
 	public String escapeRegex(String input) {
 		return input.replaceAll("[\\\\\\[\\]{}()*+?.^$|]", "\\\\$0");
 //		return input.replaceAll("[\\\\\\[\\]\\{\\}\\(\\)\\*\\+\\?\\.\\^\\$\\|]", "\\\\$0");

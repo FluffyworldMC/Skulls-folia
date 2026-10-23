@@ -22,7 +22,6 @@ import ca.tweetzy.flight.command.AllowedExecutor;
 import ca.tweetzy.flight.command.Command;
 import ca.tweetzy.flight.command.ReturnType;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
-import ca.tweetzy.flight.nbtapi.NBT;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.PlayerUtil;
@@ -35,6 +34,8 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 
@@ -48,34 +49,38 @@ public final class InspectCommand extends Command {
 	protected ReturnType execute(CommandSender sender, String... args) {
 		final Player player = (Player) sender;
 
-		final ItemStack hand = PlayerUtil.getHand(player);
-		int skullId = -1;
+		Skulls.getTaskScheduler().runTask(player, () -> {
+			final ItemStack hand = PlayerUtil.getHand(player);
+			int skullId = -1;
 
-		if (hand.getType() == CompMaterial.AIR.parseMaterial()) {
-			final Block targetBlock = player.getTargetBlock(null, 10);
-			if (targetBlock.getType() != CompMaterial.PLAYER_HEAD.parseMaterial()) return ReturnType.FAIL;
+			if (hand == null || hand.getType() == CompMaterial.AIR.parseMaterial()) {
+				final Block targetBlock = player.getTargetBlock(null, 10);
+				if (targetBlock.getType() != CompMaterial.PLAYER_HEAD.parseMaterial()) return;
 
-			final PlacedSkull placedSkull = Skulls.getSkullManager().getPlacedSkulls().get(targetBlock.getLocation());
-			if (placedSkull != null) {
-				skullId = placedSkull.getSkullId();
+				final PlacedSkull placedSkull = Skulls.getSkullManager().getPlacedSkulls().get(targetBlock.getLocation());
+				if (placedSkull != null) {
+					skullId = placedSkull.getSkullId();
+				}
+			} else {
+				final ItemMeta meta = hand.getItemMeta();
+				if (meta != null) {
+					final Integer id = meta.getPersistentDataContainer().get(Skulls.getSkullIdKey(), PersistentDataType.INTEGER);
+					if (id != null) skullId = id;
+				}
 			}
-		} else {
-			if (NBT.get(hand, nbt -> (boolean) nbt.hasTag("Skulls:ID"))) {
-				final String skullIdString = NBT.get(hand, nbt -> (String) nbt.getString("Skulls:ID"));
-				skullId = Integer.parseInt(skullIdString);
+
+			final Skull skull = Skulls.getSkullManager().getSkull(skullId);
+			if (skull == null) {
+				Common.tell(player, TranslationManager.string(player, Translations.NO_SKULL_INFO));
+				return;
 			}
-		}
 
-		final Skull skull = Skulls.getSkullManager().getSkull(skullId);
-		if (skull == null) {
-			Common.tell(sender, TranslationManager.string(Translations.NO_SKULL_INFO));
-			return ReturnType.FAIL;
-		}
+			Common.tellNoPrefix(player, TranslationManager.list(player, Translations.INSPECT_INFO,
+					"skull_id", String.valueOf(skullId),
+					"skull_texture", skull.getTexture()
+			).toArray(new String[0]));
+		});
 
-		Common.tellNoPrefix(sender, TranslationManager.list(Translations.INSPECT_INFO,
-				"skull_id", String.valueOf(skullId),
-				"skull_texture", skull.getTexture()
-		).toArray(new String[0]));
 		return ReturnType.SUCCESS;
 	}
 
@@ -96,6 +101,6 @@ public final class InspectCommand extends Command {
 
 	@Override
 	public String getDescription() {
-		return "Inspects the skull being held or looked at";
+		return "ตรวจสอบข้อมูลหัวที่ถืออยู่หรือเล็งอยู่";
 	}
 }

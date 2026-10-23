@@ -20,9 +20,9 @@ package ca.tweetzy.skulls.model;
 
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.skulls.Skulls;
+import ca.tweetzy.skulls.model.StringHelper;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
-import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -40,7 +40,7 @@ public final class SkullItem {
 
 		final String[] split = texture.split(":");
 
-		if (!NumberUtils.isNumber(split[1]))
+		if (!StringHelper.isInt(split[1]))
 			return CompMaterial.STONE.parseItem();
 
 		return Skulls.getSkullManager().getSkullItem(Integer.parseInt(split[1]));

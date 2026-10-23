@@ -21,14 +21,14 @@ package ca.tweetzy.skulls.impl;
 import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.QuickItem;
-import ca.tweetzy.flight.utils.profiles.builder.XSkull;
-import ca.tweetzy.flight.utils.profiles.objects.ProfileInputType;
-import ca.tweetzy.flight.utils.profiles.objects.Profileable;
 import ca.tweetzy.skulls.Skulls;
 import ca.tweetzy.skulls.api.interfaces.Skull;
 import ca.tweetzy.skulls.settings.Translations;
+import ca.tweetzy.skulls.utils.SkullItems;
 import lombok.AllArgsConstructor;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 
@@ -101,12 +101,18 @@ public final class TexturedSkull implements Skull {
 
 	@Override
 	public ItemStack getItemStack() {
-		ItemStack itemUnTextured = QuickItem
+		final ItemStack itemUnTextured = QuickItem
 				.of(CompMaterial.PLAYER_HEAD)
 				.name(TranslationManager.string(Translations.SKULL_TITLE, "skull_name", this.name))
-				.tag("Skulls:ID", String.valueOf(this.id)).make();
+				.make();
 
-		return XSkull.of(itemUnTextured).profile(Profileable.of(ProfileInputType.TEXTURE_URL, this.texture)).lenient().apply();
+		final ItemMeta meta = itemUnTextured.getItemMeta();
+		if (meta != null) {
+			meta.getPersistentDataContainer().set(Skulls.getSkullIdKey(), PersistentDataType.INTEGER, this.id);
+			itemUnTextured.setItemMeta(meta);
+		}
+
+		return SkullItems.applyTexture(itemUnTextured, this.texture);
 	}
 
 	@Override

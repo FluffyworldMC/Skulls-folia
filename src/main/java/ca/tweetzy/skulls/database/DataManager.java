@@ -34,6 +34,7 @@ import ca.tweetzy.skulls.impl.PlacedSkullLocation;
 import ca.tweetzy.skulls.impl.SkullCategory;
 import ca.tweetzy.skulls.impl.SkullPlayer;
 import ca.tweetzy.skulls.impl.TexturedSkull;
+import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import lombok.NonNull;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -57,38 +59,90 @@ import java.util.stream.Collectors;
  */
 public final class DataManager extends DataManagerAbstract {
 
+	private final boolean mariaDb;
+
 	public DataManager(DatabaseConnector databaseConnector, Plugin plugin) {
 		super(databaseConnector, plugin);
+		this.mariaDb = databaseConnector instanceof MariaDbConnector;
+	}
+
+	private String insertIgnore() {
+		return this.mariaDb ? "INSERT IGNORE" : "INSERT OR IGNORE";
+	}
+
+	/*
+	 * Flight's DataManagerAbstract uses Bukkit.getScheduler() internally, which does not
+	 * exist on Folia. Database work is executed on the inherited single-thread executor
+	 * instead, and callbacks are moved to the global region thread.
+	 */
+
+	@Override
+	public void async(Runnable runnable) {
+		this.asyncPool.execute(runnable);
+	}
+
+	@Override
+	public void sync(Runnable runnable) {
+		final TaskScheduler scheduler = Skulls.getTaskScheduler();
+		if (scheduler != null) scheduler.runTask(runnable);
+	}
+
+	@Override
+	public void runAsync(Runnable runnable) {
+		this.asyncPool.execute(runnable);
+	}
+
+	@Override
+	public void runAsync(Runnable runnable, Consumer<Throwable> onError) {
+		this.asyncPool.execute(() -> {
+			try {
+				runnable.run();
+			} catch (Throwable throwable) {
+				if (onError != null) onError.accept(throwable);
+			}
+		});
 	}
 
 	public void insertSkulls(Collection<Skull> skulls) {
 		final int batchSize = 1000;
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			connection.setAutoCommit(false);
+			final boolean autoCommit = connection.getAutoCommit();
 
-			PreparedStatement statement = connection.prepareStatement(
-					"INSERT OR IGNORE INTO " + this.getTablePrefix() + "skull(id, name, category, texture, tags, price, blocked) VALUES(?, ?, ?, ?, ?, ?, ?)"
-			);
+			try (PreparedStatement statement = connection.prepareStatement(
+					insertIgnore() + " INTO " + this.getTablePrefix() + "skull(id, name, category, texture, tags, price, blocked) VALUES(?, ?, ?, ?, ?, ?, ?)"
+			)) {
+				connection.setAutoCommit(false);
 
-			int count = 0;
-			for (Skull skull : skulls) {
-				statement.setInt(1, skull.getId());
-				statement.setString(2, skull.getName());
-				statement.setString(3, skull.getCategory());
-				statement.setString(4, skull.getTexture());
-				statement.setString(5, String.join(",", skull.getTags()));
-				statement.setDouble(6, skull.getPrice());
-				statement.setBoolean(7, skull.isBlocked());
-				statement.addBatch();
+				int count = 0;
+				for (Skull skull : skulls) {
+					statement.setInt(1, skull.getId());
+					statement.setString(2, skull.getName());
+					statement.setString(3, skull.getCategory());
+					statement.setString(4, skull.getTexture());
+					statement.setString(5, String.join(",", skull.getTags()));
+					statement.setDouble(6, skull.getPrice());
+					statement.setBoolean(7, skull.isBlocked());
+					statement.addBatch();
 
-				if (++count % batchSize == 0) {
-					statement.executeBatch(); // Execute batch every batchSize
+					if (++count % batchSize == 0) {
+						statement.executeBatch();
+					}
+				}
+
+				statement.executeBatch();
+				connection.commit();
+			} catch (SQLException exception) {
+				try {
+					connection.rollback();
+				} catch (SQLException ignored) {
+				}
+				throw exception;
+			} finally {
+				try {
+					connection.setAutoCommit(autoCommit);
+				} catch (SQLException ignored) {
 				}
 			}
-
-			statement.executeBatch();
-			connection.commit();
-			statement.close();
 
 			Skulls.getSkullManager().setDownloading(false);
 			Common.log("&r&aFinished inserting all heads into the data file!");
@@ -217,8 +271,8 @@ public final class DataManager extends DataManagerAbstract {
 
 	public void insertPlayer(@NonNull final SkullUser user, Callback<SkullUser> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			try (PreparedStatement statement = connection.prepareStatement("INSERT INTO " + this.getTablePrefix() + "players (uuid, favourites) VALUES(?, ?) ON CONFLICT(uuid) DO NOTHING;")) {
-				PreparedStatement fetch = connection.prepareStatement("SELECT * FROM " + this.getTablePrefix() + "players WHERE uuid = ?");
+			try (PreparedStatement statement = connection.prepareStatement(insertIgnore() + " INTO " + this.getTablePrefix() + "players (uuid, favourites) VALUES(?, ?)");
+			     PreparedStatement fetch = connection.prepareStatement("SELECT * FROM " + this.getTablePrefix() + "players WHERE uuid = ?")) {
 
 				fetch.setString(1, user.getUUID().toString());
 				statement.setString(1, user.getUUID().toString());
@@ -226,9 +280,11 @@ public final class DataManager extends DataManagerAbstract {
 				statement.executeUpdate();
 
 				if (callback != null) {
-					ResultSet res = fetch.executeQuery();
-					res.next();
-					callback.accept(null, extractSkullPlayer(res));
+					try (ResultSet res = fetch.executeQuery()) {
+						if (res.next()) {
+							callback.accept(null, extractSkullPlayer(res));
+						}
+					}
 				}
 
 			} catch (Exception e) {
@@ -240,8 +296,8 @@ public final class DataManager extends DataManagerAbstract {
 
 	public void insertCategory(@NonNull final Category category, Callback<Category> callback) {
 		this.runAsync(() -> this.databaseConnector.connect(connection -> {
-			try (PreparedStatement statement = connection.prepareStatement("INSERT INTO " + this.getTablePrefix() + "categories (id, name, skulls) VALUES(?, ?, ?)")) {
-				PreparedStatement fetch = connection.prepareStatement("SELECT * FROM " + this.getTablePrefix() + "categories WHERE id = ?");
+			try (PreparedStatement statement = connection.prepareStatement(insertIgnore() + " INTO " + this.getTablePrefix() + "categories (id, name, skulls) VALUES(?, ?, ?)");
+			     PreparedStatement fetch = connection.prepareStatement("SELECT * FROM " + this.getTablePrefix() + "categories WHERE id = ?")) {
 
 				fetch.setString(1, category.getId());
 				statement.setString(1, category.getId());
@@ -250,9 +306,11 @@ public final class DataManager extends DataManagerAbstract {
 				statement.executeUpdate();
 
 				if (callback != null) {
-					ResultSet res = fetch.executeQuery();
-					res.next();
-					callback.accept(null, extractCategory(res));
+					try (ResultSet res = fetch.executeQuery()) {
+						if (res.next()) {
+							callback.accept(null, extractCategory(res));
+						}
+					}
 				}
 
 			} catch (Exception e) {
@@ -333,13 +391,17 @@ public final class DataManager extends DataManagerAbstract {
 
 	public Category extractCategory(@NonNull final ResultSet resultSet) throws SQLException {
 		final String skulls = resultSet.getString("skulls");
-		final String[] split = skulls.split(",");
 
+		if (skulls == null || skulls.isBlank()) {
+			return new SkullCategory(resultSet.getString("id"), resultSet.getString("name"), true, new ArrayList<>());
+		}
+
+		final String[] split = skulls.split(",");
 		return new SkullCategory(
 				resultSet.getString("id"),
 				resultSet.getString("name"),
 				true,
-				skulls.length() == 0 || split.length == 0 ? new ArrayList<>() : Arrays.stream(split).map(Integer::parseInt).collect(Collectors.toList())
+				Arrays.stream(split).filter(value -> !value.isBlank()).map(Integer::parseInt).collect(Collectors.toList())
 		);
 	}
 
@@ -354,11 +416,15 @@ public final class DataManager extends DataManagerAbstract {
 
 	public SkullUser extractSkullPlayer(@NonNull final ResultSet resultSet) throws SQLException {
 		final String favs = resultSet.getString("favourites");
-		final String[] split = favs.split(",");
 
+		if (favs == null || favs.isBlank()) {
+			return new SkullPlayer(UUID.fromString(resultSet.getString("uuid")), new ArrayList<>());
+		}
+
+		final String[] split = favs.split(",");
 		return new SkullPlayer(
 				UUID.fromString(resultSet.getString("uuid")),
-				favs.length() == 0 || split.length == 0 ? new ArrayList<>() : Arrays.stream(split).map(Integer::parseInt).collect(Collectors.toList())
+				Arrays.stream(split).filter(value -> !value.isBlank()).map(Integer::parseInt).collect(Collectors.toList())
 		);
 	}
 

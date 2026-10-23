@@ -1,0 +1,62 @@
+language: th_th
+prefix: '<GRADIENT:DD5E89>&lSkulls</GRADIENT:fbc7d4>&r &8»'
+# (ผู้เล่นที่มีสิทธิ์ skulls.freeskulls ไม่ต้องจ่าย)
+charge-for-heads: true
+data-url: 'https://raw.githubusercontent.com/Tweetzy/Data-Files/main/Skulls/skulls.json'
+# ฐานข้อมูล: sqlite หรือ mariadb
+database:
+  type: mysql
+  mariadb:
+    host: 127.0.0.1
+    port: 3306
+    database: skulls
+    username: root
+    password: ''
+    use-ssl: false
+    pool-size: 5
+    connection-timeout: 10000
+    max-lifetime: 1800000
+  sqlite:
+    busy-timeout: 10000
+economy: Vault
+item-economy-item: GOLD_INGOT
+main-menu-requires-no-permission: true
+general-usage-requires-no-permission: false
+tell-ops-patron-on-join: false
+track-skull-placement: true
+random-head-button:
+  enabled: false
+  price: 1.0
+ask-for-purchase-confirmation: false
+enabled-categories:
+  alphabet: true
+  animals: true
+  blocks: true
+  decoration: true
+  food-and-drinks: true
+  humans: true
+  humanoids: true
+  misc: true
+  monsters: true
+  plants: true
+  player-heads: false
+player-head:
+  name: '&e%player_name%'
+  drop-enabled: false
+  drop-chance: 50
+claim-delay:
+  enabled: false
+  permission-times:
+    - basic:30
+default-prices:
+  alphabet: 1.0
+  animals: 1.0
+  blocks: 1.0
+  decoration: 1.0
+  food-and-drinks: 1.0
+  humans: 1.0
+  humanoids: 1.0
+  misc: 1.0
+  monsters: 1.0
+  plants: 1.0
+  player-heads: 1.0

@@ -1,0 +1,197 @@
+input:
+  category-create:
+    subtitle: '&fพิมพ์รหัสของหมวดหมู่ใหม่ในแชท'
+    title: '&eสร้างหมวดหมู่'
+  skull-edit:
+    price: '&fพิมพ์ราคาใหม่ของหัวในแชท'
+    name: '&fพิมพ์ชื่อใหม่ของหัวในแชท'
+    title: '&eแก้ไขหัว'
+  skull-search:
+    subtitle: '&fพิมพ์คำค้นหาในแชท'
+    title: '&eค้นหาหัว'
+categories:
+  food-and-drinks: อาหารและเครื่องดื่ม
+  humanoid: สิ่งมีชีวิตคล้ายมนุษย์
+  plants: พืช
+  blocks: บล็อก
+  player-head: '&eหัวของ %player_name%'
+  monsters: มอนสเตอร์
+  alphabet: ตัวอักษร
+  animals: สัตว์
+  decoration: ของตกแต่ง
+  humans: มนุษย์
+  misc: เบ็ดเตล็ด
+gui:
+  custom-category-list:
+    title: '&eSkulls &8» &7หมวดหมู่ที่สร้างเอง'
+    items:
+      new:
+        lore:
+          - ''
+          - '&e&lคลิก &8» &7สร้างหมวดหมู่ใหม่'
+        name: '&a&lสร้างหมวดหมู่ใหม่'
+        error: '&cไม่สามารถสร้างหมวดหมู่ได้ กรุณาดูข้อมูลในคอนโซล'
+        empty: '&cกรุณากรอกรหัสหมวดหมู่'
+      category:
+        lore:
+          - '&7ดูหัวทั้งหมดในหมวดหมู่นี้'
+          - '&7จำนวนหัว&f: &b%category_size%'
+          - ''
+          - '&e&lคลิก &8» &7เปิดหมวดหมู่'
+        name: '&e%category_name%'
+  skulls-list:
+    title:
+      all: '&eSkulls &8» &7ทั้งหมด'
+      search: '&eSkulls &8» &7ค้นหา: %search_phrase%'
+      favourites: '&eSkulls &8» &7รายการโปรด'
+      category: '&eSkulls &8» &7%category_name%'
+    items:
+      skull:
+        lore:
+          take: '&e&lคลิกซ้าย &8» &7รับหัวนี้'
+          blocked: '&c&oไม่สามารถซื้อหัวนี้ได้'
+          edit: '&b&lกดปุ่ม 1 &8» &7แก้ไขหัวนี้'
+          favourited: '&e&lอยู่ในรายการโปรด'
+          price: '&7ราคา&f: &a$%skull_price%'
+          un-favourite: '&e&lคลิกขวา &8» &7ลบออกจากรายการโปรด'
+          id: '&7รหัส&f: &e%skull_id%'
+          favourite: '&e&lคลิกขวา &8» &7เพิ่มในรายการโปรด'
+          tags: '&7แท็ก&f: &e%skull_tags%'
+        name: '&e%skull_name%'
+  edit:
+    title: '&eSkulls &8» &7แก้ไข &8» &7%skull_id%'
+    items:
+      blocked:
+        lore:
+          - ''
+          - '&7ถูกบล็อก&f: %is_true%'
+          - ''
+          - '&e&lคลิก &8» &7สลับสถานะการบล็อก'
+        name: '&e&lสถานะการบล็อก'
+      price:
+        lore:
+          - ''
+          - '&e&lคลิก &8» &7แก้ไขราคาหัว'
+        name: '&e&lราคาหัว'
+      name:
+        lore:
+          - ''
+          - '&e&lคลิก &8» &7เปลี่ยนชื่อหัว'
+        name: '&e&lชื่อหัว'
+      add-category:
+        lore:
+          - ''
+          - '&e&lคลิก &8» &7เพิ่มหัวนี้เข้าหมวดหมู่อื่น'
+        name: '&e&lเพิ่มเข้าหมวดหมู่'
+  player-heads:
+    title: '&eSkulls &8» &7หัวผู้เล่น'
+    items:
+      head:
+        name: '&e%player_name%'
+      unknown:
+        name: '&eผู้เล่นที่ไม่รู้จัก'
+  shared-buttons:
+    back-button:
+      lore: '&e&lคลิก &8» &7กลับไปเมนูก่อนหน้า'
+      name: '&e&lย้อนกลับ'
+    previous-button:
+      lore: '&e&lคลิก &8» &7ไปหน้าก่อนหน้า'
+      name: '&e&lหน้าก่อนหน้า'
+    next-button:
+      lore: '&e&lคลิก &8» &7ไปหน้าถัดไป'
+      name: '&e&lหน้าถัดไป'
+    exit-button:
+      lore: '&e&lคลิก &8» &7ปิดเมนู'
+      name: '&c&lปิดเมนู'
+  main:
+    title: '&eSkulls &8» &7เมนูหลัก'
+    items:
+      search:
+        lore:
+          - ''
+          - '&e&lคลิก &8» &7ค้นหาหัว'
+        name: '&e&lค้นหาหัว'
+      favourites:
+        lore:
+          - '&7รวมหัวทั้งหมดที่คุณกดถูกใจไว้'
+          - ''
+          - '&e&lคลิก &8» &7ดูรายการโปรด'
+        name: '&e&lรายการโปรด'
+      players:
+        lore:
+          - '&7ดูหัวของผู้เล่นทั้งหมด'
+          - '&7จำนวนหัว&f: &b%category_size%'
+          - ''
+          - '&e&lคลิก &8» &7เปิดหัวผู้เล่น'
+        name: '&e&lหัวผู้เล่น'
+      custom-categories:
+        lore:
+          - ''
+          - '&e&lคลิก &8» &7ดูหมวดหมู่ที่สร้างเอง'
+        name: '&e&lหมวดหมู่เพิ่มเติม'
+      category:
+        lore:
+          - '&7ดูหัวทั้งหมดในหมวดหมู่นี้'
+          - '&7จำนวนหัว&f: &b%category_size%'
+          - ''
+          - '&e&lคลิก &8» &7เปิดหมวดหมู่'
+        name: '&e%category_name%'
+      random-head:
+        lore:
+          - '&7รับหัวแบบสุ่มจากหมวดหมู่ที่คุณเข้าถึงได้'
+          - ''
+          - '&7ราคา&f: &a$%price%'
+          - ''
+          - '&e&lคลิก &8» &7รับหัวสุ่ม'
+        name: '&e&lสุ่มหัว'
+  custom-category-selector:
+    title: '&eSkulls &8» &7เลือกหมวดหมู่'
+    items:
+      category:
+        lore: '&e&lคลิก &8» &7เลือกหมวดหมู่นี้'
+        name: '&e%category_name%'
+  loading:
+    lore: '&7กรุณารอสักครู่'
+    name: '&e&lกำลังโหลด...'
+  confirm-action:
+    title: '%pl_name% &f- &7ยืนยันหรือไม่?'
+    items:
+      cancel:
+        lore: '&e&lคลิก &7เพื่อยกเลิก'
+        name: '&c&lยกเลิก'
+      confirm:
+        lore: '&e&lคลิก &7เพื่อยืนยัน'
+        name: '&a&lยืนยัน'
+dialog:
+  confirm: '&a&lยืนยัน'
+skulls:
+  error:
+    not-a-number: '&c%value% ไม่ใช่ตัวเลขที่ถูกต้อง'
+    no-permission: '&cคุณไม่มีสิทธิ์ใช้งานส่วนนี้'
+    no-money: '&cคุณมีเงินไม่พอ'
+    player-offline: '&c%value% ไม่ได้ออนไลน์อยู่'
+    player-not-found: '&cไม่พบผู้เล่น %value%'
+misc:
+  received-random-skull: '&aคุณได้รับหัวสุ่ม &f(&e%skull_name%&f)'
+  reload-success: '&aโหลดการตั้งค่าใหม่เรียบร้อยแล้ว'
+  claim-delay: '&cคุณสามารถรับหัวได้อีกครั้งใน &7(&e%time_difference%&7)'
+  purchase-success: '&aซื้อสำเร็จ'
+  id-taken: '&cรหัสหมวดหมู่นี้ถูกใช้งานแล้ว'
+  skull-not-found: '&cไม่พบหัวที่มีรหัสนี้'
+  player-head-given: '&aมอบหัวให้ &e%player_name% &aเรียบร้อยแล้ว'
+  no-skull-info: '&cไม่สามารถระบุรหัสของหัวนี้ได้'
+  category-permission: '&cคุณไม่มีสิทธิ์เข้าถึงหมวดหมู่นี้'
+conditionals:
+  is-true: '&aใช่'
+  is-false: '&cไม่ใช่'
+  is-allowed: '&aอนุญาต'
+  is-disallowed: '&cไม่อนุญาต'
+skull:
+  name: '&e%skull_name%'
+inspect-info:
+  - '&8&m-----------------------------------------------------'
+  - ''
+  - '&eรหัสหัว&f: &a%skull_id%'
+  - '&eลิงก์เท็กซ์เจอร์&f: &a%skull_texture%'
+  - ''
+  - '&8&m-----------------------------------------------------'

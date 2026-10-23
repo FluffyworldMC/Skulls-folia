@@ -24,8 +24,8 @@ import ca.tweetzy.flight.command.ReturnType;
 import ca.tweetzy.skulls.Skulls;
 import ca.tweetzy.skulls.api.enums.ViewMode;
 import ca.tweetzy.skulls.api.interfaces.SkullUser;
-import ca.tweetzy.skulls.guis.SkullsViewGUI;
 import ca.tweetzy.skulls.impl.SkullPlayer;
+import ca.tweetzy.skulls.menu.impl.SkullsListMenu;
 import ca.tweetzy.skulls.model.StringHelper;
 import ca.tweetzy.skulls.settings.Settings;
 import org.bukkit.command.CommandSender;
@@ -61,14 +61,13 @@ public final class SearchCommand extends Command {
 			Skulls.getDataManager().insertPlayer(new SkullPlayer(player.getUniqueId(), new ArrayList<>()), (createError, created) -> {
 				if (createError == null) {
 					Skulls.getPlayerManager().addPlayer(created);
-					Skulls.getGuiManager().showGUI(player, new SkullsViewGUI(null, created, query, ViewMode.SEARCH));
+					new SkullsListMenu(null, player, created, query, ViewMode.SEARCH).open();
 				} else {
-					Skulls.getGuiManager().showGUI(player, new SkullsViewGUI(null, new SkullPlayer(player.getUniqueId(), new ArrayList<>()),query, ViewMode.SEARCH));
-
+					new SkullsListMenu(null, player, new SkullPlayer(player.getUniqueId(), new ArrayList<>()), query, ViewMode.SEARCH).open();
 				}
 			});
 		else
-			Skulls.getGuiManager().showGUI(player, new SkullsViewGUI(null, skullUser, query, ViewMode.SEARCH));
+			new SkullsListMenu(null, player, skullUser, query, ViewMode.SEARCH).open();
 
 		return ReturnType.SUCCESS;
 	}
@@ -90,6 +89,6 @@ public final class SearchCommand extends Command {
 
 	@Override
 	public String getDescription() {
-		return "Search for skulls";
+		return "ค้นหาหัวจากคำค้นหา";
 	}
 }

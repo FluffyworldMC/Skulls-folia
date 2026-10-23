@@ -38,8 +38,7 @@ public final class VaultEconomy implements Economy {
 	public VaultEconomy() {
 		final RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> rsp = Skulls.getInstance().getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
 		if (rsp == null) {
-			Common.log("&cSkulls could not find an economy provider for Vault!");
-			return;
+			throw new IllegalStateException("Skulls could not find an economy provider for Vault!");
 		}
 
 		this.economy = rsp.getProvider();

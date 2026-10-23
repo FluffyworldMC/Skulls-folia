@@ -26,6 +26,7 @@ import ca.tweetzy.skulls.api.enums.BaseCategory;
 import ca.tweetzy.skulls.api.interfaces.PlacedSkull;
 import ca.tweetzy.skulls.api.interfaces.Skull;
 import ca.tweetzy.skulls.impl.TexturedSkull;
+import ca.tweetzy.skulls.model.StringHelper;
 import ca.tweetzy.skulls.settings.Settings;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -33,7 +34,6 @@ import com.google.gson.JsonParser;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -82,10 +82,10 @@ public final class SkullManager implements Manager {
 
 	public List<OfflinePlayer> getOnlineOfflinePlayers() {
 		final List<OfflinePlayer> players = new ArrayList<>(Arrays.asList(Bukkit.getOfflinePlayers()));
-		Bukkit.getOnlinePlayers().forEach(player -> {
-			if (players.stream().anyMatch(target -> target.getUniqueId().equals(player.getUniqueId()))) return;
+		for (Player player : Bukkit.getOnlinePlayers().toArray(new Player[0])) {
+			if (players.stream().anyMatch(target -> target.getUniqueId().equals(player.getUniqueId()))) continue;
 			players.add(player);
-		});
+		}
 
 		return players;
 	}
@@ -121,7 +121,7 @@ public final class SkullManager implements Manager {
 
 		int id = -1;
 		if (phrase.startsWith("id:")) {
-			if (NumberUtils.isNumber(phrase.split(":")[1])) {
+			if (StringHelper.isInt(phrase.split(":")[1])) {
 				id = Integer.parseInt(phrase.split(":")[1]);
 			}
 		}
@@ -174,7 +174,7 @@ public final class SkullManager implements Manager {
 	 */
 
 	private void checkAndFixDatabase() {
-		Bukkit.getServer().getScheduler().runTaskAsynchronously(Skulls.getInstance(), () -> {
+		Skulls.getTaskScheduler().runTaskAsynchronously(() -> {
 			final Map<Integer, Skull> heads = new HashMap<>();
 
 			Common.log("&r&aRunning database check :)");
@@ -200,7 +200,7 @@ public final class SkullManager implements Manager {
 
 	public void downloadHeads() {
 		setDownloading(true);
-		Bukkit.getServer().getScheduler().runTaskAsynchronously(Skulls.getInstance(), () -> {
+		Skulls.getTaskScheduler().runTaskAsynchronously(() -> {
 			Common.log("&r&aBeginning initial download, it may take some time to insert all the skulls into the data file!");
 
 			final List<Skull> heads = new ArrayList<>(performHeadDownload(false));

@@ -23,8 +23,7 @@ import ca.tweetzy.flight.command.Command;
 import ca.tweetzy.flight.command.ReturnType;
 import ca.tweetzy.flight.settings.TranslationManager;
 import ca.tweetzy.flight.utils.Common;
-import ca.tweetzy.skulls.Skulls;
-import ca.tweetzy.skulls.guis.MainGUI;
+import ca.tweetzy.skulls.menu.impl.MainMenu;
 import ca.tweetzy.skulls.settings.Settings;
 import ca.tweetzy.skulls.settings.Translations;
 import org.bukkit.command.CommandSender;
@@ -41,7 +40,7 @@ import java.util.List;
 public final class SkullsCommand extends Command {
 
 	public SkullsCommand() {
-		super(AllowedExecutor.BOTH, "skulls");
+		super(AllowedExecutor.BOTH, "skulls", "hdb");
 	}
 
 	@Override
@@ -55,7 +54,7 @@ public final class SkullsCommand extends Command {
 //			}
 
 			if (player.hasPermission("skulls.command.main") || Settings.MAIN_MENU_REQUIRES_NO_PERM.getBoolean())
-				Skulls.getGuiManager().showGUI(player, new MainGUI(player));
+				new MainMenu(player).open();
 		}
 
 		return ReturnType.SUCCESS;
@@ -78,7 +77,7 @@ public final class SkullsCommand extends Command {
 
 	@Override
 	public String getDescription() {
-		return "The main command for the plugin";
+		return "คำสั่งหลักของปลั๊กอิน Skulls";
 	}
 
 }

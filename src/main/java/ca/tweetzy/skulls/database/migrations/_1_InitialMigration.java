@@ -49,16 +49,16 @@ public final class _1_InitialMigration extends DataMigration {
 
 			statement.execute("CREATE TABLE IF NOT EXISTS " + tablePrefix + "categories (" +
 					"id VARCHAR(64) PRIMARY KEY, " +
-					"name VARCHAR(72) NOT NULL, " +
+					"name VARCHAR(128) NOT NULL, " +
 					"skulls TEXT NULL" +
 					")");
 
 			statement.execute("CREATE TABLE IF NOT EXISTS " + tablePrefix + "skull (" +
 					"id INTEGER PRIMARY KEY, " +
-					"name VARCHAR(64) NOT NULL, " +
-					"category VARCHAR(16) NOT NULL, " +
-					"tags VARCHAR(160) NOT NULL, " +
-					"texture VARCHAR(144) NOT NULL, " +
+					"name VARCHAR(255) NOT NULL, " +
+					"category VARCHAR(64) NOT NULL, " +
+					"tags TEXT NOT NULL, " +
+					"texture VARCHAR(512) NOT NULL, " +
 					"price DOUBLE NOT NULL, " +
 					"blocked BOOLEAN NOT NULL" +
 					")");

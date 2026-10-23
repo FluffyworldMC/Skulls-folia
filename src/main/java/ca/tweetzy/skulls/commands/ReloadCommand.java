@@ -29,6 +29,7 @@ import ca.tweetzy.flight.utils.PlayerUtil;
 import ca.tweetzy.skulls.Skulls;
 import ca.tweetzy.skulls.api.interfaces.PlacedSkull;
 import ca.tweetzy.skulls.api.interfaces.Skull;
+import ca.tweetzy.skulls.menu.config.MenuConfig;
 import ca.tweetzy.skulls.settings.Settings;
 import ca.tweetzy.skulls.settings.Translations;
 import org.bukkit.block.Block;
@@ -48,7 +49,8 @@ public final class ReloadCommand extends Command {
 	protected ReturnType execute(CommandSender sender, String... args) {
 		Settings.setup();
 		Translations.init();
-		tell(sender, "&aReloaded configuration files");
+		MenuConfig.reload();
+		Common.tell(sender, TranslationManager.string(Translations.RELOAD_SUCCESS));
 		return ReturnType.SUCCESS;
 	}
 
@@ -69,6 +71,6 @@ public final class ReloadCommand extends Command {
 
 	@Override
 	public String getDescription() {
-		return "Used to reload the plugin";
+		return "ใช้โหลดการตั้งค่าของปลั๊กอินใหม่";
 	}
 }

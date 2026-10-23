@@ -47,19 +47,19 @@ public final class GiveCommand extends Command {
 
 		Player target = null;
 
-		if (!isGiveAll)
+		if (!isGiveAll) {
 			target = Bukkit.getPlayerExact(args[0]);
+		}
 
 		if (target == null && !isGiveAll) {
-			Common.tell(sender, TranslationManager.string(Translations.PLAYER_OFFLINE, "value", args[0]));
+			Common.tell(sender, TranslationManager.string(Translations.ERROR_PLAYER_OFFLINE, "value", args[0]));
 			return ReturnType.FAIL;
 		}
 
-		boolean isRandomHead = args[1].equalsIgnoreCase("random");
+		final boolean isRandomHead = args[1].equalsIgnoreCase("random");
 
 		if (!isRandomHead && !StringHelper.isInt(args[1])) {
-			Common.tell(sender, TranslationManager.string(Translations.NOT_A_NUMBER, "value", args[1]));
-
+			Common.tell(sender, TranslationManager.string(Translations.ERROR_NOT_A_NUMBER, "value", args[1]));
 			return ReturnType.FAIL;
 		}
 
@@ -73,28 +73,30 @@ public final class GiveCommand extends Command {
 			return ReturnType.FAIL;
 		}
 
+		final List<Player> targets = isGiveAll
+				? List.copyOf(Bukkit.getOnlinePlayers())
+				: List.of(target);
+
 		for (int i = 0; i < amount; i++) {
-			if (isRandomHead)
-				skull = Skulls.getSkullManager().getRandomSkull();
+			final Skull selected = isRandomHead ? Skulls.getSkullManager().getRandomSkull() : skull;
+			if (selected == null) continue;
 
-			if (isGiveAll)
-				for (Player player : Bukkit.getOnlinePlayers()) {
-					giveHead(player, skull);
-				}
-			else
-				giveHead(target, skull);
-
+			for (Player player : targets) {
+				Skulls.getTaskScheduler().runTask(player, () -> giveHead(player, selected));
+			}
 		}
-
 
 		return ReturnType.SUCCESS;
 	}
 
 	private void giveHead(Player target, Skull skull) {
-		if (target.getInventory().firstEmpty() == -1)
+		if (!target.isOnline()) return;
+
+		if (target.getInventory().firstEmpty() == -1) {
 			target.getWorld().dropItemNaturally(target.getLocation(), skull.getItemStack());
-		else
+		} else {
 			target.getInventory().addItem(skull.getItemStack());
+		}
 	}
 
 	@Override
@@ -114,6 +116,6 @@ public final class GiveCommand extends Command {
 
 	@Override
 	public String getDescription() {
-		return "Gives player(s) a specific or random head";
+		return "มอบหัวที่ระบุหรือหัวสุ่มให้ผู้เล่น";
 	}
 }

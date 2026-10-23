@@ -1,0 +1,223 @@
+# ============================================================
+# Skulls - menus.yml
+# ปรับแต่งเมนูและไอเท็มได้อิสระ
+# ทุกไอเท็มรองรับ: material, texture, player_head, slot, slots,
+# display_name, lore, item_model, custom_model_data, glow, amount, enabled
+# ถ้าต้องการเว้นบรรทัดใน lore ให้ใส่ - แค่ตัวเดียว
+# ถ้าไม่กำหนด material จะใช้ไอเท็มเดิมของเมนูนั้น
+# item_model ต้องมีโมเดลใน resource pack เช่น minecraft:custom/head
+# custom_model_data ต้องมี predicate ใน resource pack ของ material นั้น
+# background คือไอเท็มพื้นหลังของทุกเมนู
+# ถ้าต้องการพื้นหลังเฉพาะเมนู ให้เพิ่ม background ใต้เมนูนั้น
+# ============================================================
+background:
+  material: BLACK_STAINED_GLASS_PANE
+  display_name: ''
+  item_model: ''
+  custom_model_data: 0
+buttons:
+  back:
+    material: DARK_OAK_DOOR
+    slot: 49
+    display_name: '&e&lย้อนกลับ'
+    lore:
+      - '&e&lคลิก &8» &7กลับไปเมนูก่อนหน้า'
+  exit:
+    material: BARRIER
+    slot: 49
+    display_name: '&c&lปิดเมนู'
+    lore:
+      - '&e&lคลิก &8» &7ปิดเมนู'
+  previous:
+    material: ARROW
+    slot: 48
+    display_name: '&e&lหน้าก่อนหน้า'
+    lore:
+      - '&e&lคลิก &8» &7ไปหน้าก่อนหน้า'
+  next:
+    material: ARROW
+    slot: 50
+    display_name: '&e&lหน้าถัดไป'
+    lore:
+      - '&e&lคลิก &8» &7ไปหน้าถัดไป'
+loading:
+  material: CLOCK
+  display_name: '&e&lกำลังโหลด...'
+  lore:
+    - '&7กรุณารอสักครู่'
+main:
+  title: '&eSkulls &8» &7เมนูหลัก'
+  rows: 6
+  category-slots:
+    alphabet: 11
+    animals: 12
+    blocks: 13
+    decoration: 14
+    food-and-drinks: 15
+    humans: 20
+    humanoid: 21
+    miscellaneous: 22
+    monsters: 23
+    plants: 24
+  items:
+    category:
+      display_name: '&e%category_name%'
+      lore:
+        - '&7ดูหัวทั้งหมดในหมวดหมู่นี้'
+        - '&7จำนวนหัว&f: &b%category_size%'
+        -
+        - '&e&lคลิก &8» &7เปิดหมวดหมู่'
+    search:
+      material: PLAYER_HEAD
+      texture: 'skulls:5650'
+      slot: 41
+      item_model: ''
+      custom_model_data: 0
+      display_name: '&e&lค้นหาหัว'
+      lore:
+        -
+        - '&e&lคลิก &8» &7ค้นหาหัว'
+    custom-categories:
+      material: PLAYER_HEAD
+      texture: 'skulls:25001'
+      slot: 38
+      display_name: '&e&lหมวดหมู่เพิ่มเติม'
+      lore:
+        -
+        - '&e&lคลิก &8» &7ดูหมวดหมู่ที่สร้างเอง'
+    player-heads:
+      player_head: true
+      slot: 39
+      display_name: '&e&lหัวผู้เล่น'
+      lore:
+        - '&7ดูหัวของผู้เล่นทั้งหมด'
+        - '&7จำนวนหัว&f: &b%category_size%'
+        -
+        - '&e&lคลิก &8» &7เปิดหัวผู้เล่น'
+    random-head:
+      material: PLAYER_HEAD
+      texture: 'skulls:5171'
+      slot: 40
+      display_name: '&e&lสุ่มหัว'
+      lore:
+        - '&7รับหัวแบบสุ่มจากหมวดหมู่ที่คุณเข้าถึงได้'
+        -
+        - '&7ราคา&f: &a$%price%'
+        -
+        - '&e&lคลิก &8» &7รับหัวสุ่ม'
+    favourites:
+      material: PLAYER_HEAD
+      texture: 'skulls:39696'
+      slot: 42
+      display_name: '&e&lรายการโปรด'
+      lore:
+        - '&7รวมหัวทั้งหมดที่คุณกดถูกใจไว้'
+        -
+        - '&e&lคลิก &8» &7ดูรายการโปรด'
+confirm:
+  title: '%pl_name% &f- &7ยืนยันหรือไม่?'
+  rows: 3
+  items:
+    confirm:
+      material: LIME_STAINED_GLASS_PANE
+      slots:
+        - 10
+        - 11
+        - 12
+      display_name: '&a&lยืนยัน'
+      lore:
+        - '&e&lคลิก &7เพื่อยืนยัน'
+    cancel:
+      material: RED_STAINED_GLASS_PANE
+      slots:
+        - 14
+        - 15
+        - 16
+      display_name: '&c&lยกเลิก'
+      lore:
+        - '&e&lคลิก &7เพื่อยกเลิก'
+edit:
+  title: '&eSkulls &8» &7แก้ไข &8» &7%skull_id%'
+  rows: 6
+  items:
+    preview:
+      slot: 13
+    name:
+      material: NAME_TAG
+      slot: 28
+      display_name: '&e&lชื่อหัว'
+      lore:
+        -
+        - '&e&lคลิก &8» &7เปลี่ยนชื่อหัว'
+    price:
+      material: GOLD_INGOT
+      slot: 30
+      display_name: '&e&lราคาหัว'
+      lore:
+        -
+        - '&e&lคลิก &8» &7แก้ไขราคาหัว'
+    add-category:
+      material: BOOKSHELF
+      slot: 32
+      display_name: '&e&lเพิ่มเข้าหมวดหมู่'
+      lore:
+        -
+        - '&e&lคลิก &8» &7เพิ่มหัวนี้เข้าหมวดหมู่อื่น'
+    blocked:
+      slot: 34
+      display_name: '&e&lสถานะการบล็อก'
+      lore:
+        -
+        - '&7ถูกบล็อก&f: %is_true%'
+        -
+        - '&e&lคลิก &8» &7สลับสถานะการบล็อก'
+category-selector:
+  title: '&eSkulls &8» &7เลือกหมวดหมู่'
+  rows: 6
+  item:
+    material: WRITTEN_BOOK
+    display_name: '&e%category_name%'
+    lore:
+      - '&7จำนวนหัว&f: &b%category_size%'
+      -
+      - '&e&lคลิก &8» &7เลือกหมวดหมู่นี้'
+custom-category-list:
+  title: '&eSkulls &8» &7หมวดหมู่ที่สร้างเอง'
+  rows: 6
+  item:
+    material: WRITTEN_BOOK
+    display_name: '&e%category_name%'
+    lore:
+      - '&7ดูหัวทั้งหมดในหมวดหมู่นี้'
+      - '&7จำนวนหัว&f: &b%category_size%'
+      -
+      - '&e&lคลิก &8» &7เปิดหมวดหมู่'
+  new-category:
+    material: SLIME_BALL
+    slot: 40
+    display_name: '&a&lสร้างหมวดหมู่ใหม่'
+    lore:
+      -
+      - '&e&lคลิก &8» &7สร้างหมวดหมู่ใหม่'
+player-heads:
+  title: '&eSkulls &8» &7หัวผู้เล่น'
+  rows: 6
+  item:
+    display_name: '&e%player_name%'
+    lore:
+      - '&7ราคา&f: &a$%skull_price%'
+      - '&e&lคลิกซ้าย &8» &7รับหัวนี้'
+  unknown:
+    material: PLAYER_HEAD
+    display_name: '&eผู้เล่นที่ไม่รู้จัก'
+skulls-list:
+  title:
+    category: '&eSkulls &8» &7%category_name%'
+    favourites: '&eSkulls &8» &7รายการโปรด'
+    search: '&eSkulls &8» &7ค้นหา: %search_phrase%'
+    all: '&eSkulls &8» &7ทั้งหมด'
+  rows: 6
+  item:
+    display_name: '&e%skull_name%'
+    # เพิ่ม lore: ใต้บรรทัดนี้ได้ถ้าต้องการแทนที่ lore อัตโนมัติ
+    # ตัวแปรที่ใช้ได้: %skull_id% %skull_name% %skull_tags% %skull_price% %search_phrase% %category_name%

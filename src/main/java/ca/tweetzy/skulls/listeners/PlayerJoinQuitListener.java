@@ -47,14 +47,15 @@ public final class PlayerJoinQuitListener implements Listener {
 		if (!player.isOp()) return;
 
 		if (!Settings.TELL_OP_PATREON_LINK.getBoolean()) return;
-		Bukkit.getServer().getScheduler().runTaskLater(Skulls.getInstance(), () -> {
+		Skulls.getTaskScheduler().runTaskLater(player, () -> {
+			if (!player.isOnline()) return;
 			Common.tellNoPrefix(player,
 					"",
 					"<center>%pl_name%",
-					"<center>&7If you like the plugin, please consider supporting",
-					"<center>&7me on patreon for as low as &a$1 &7a month.",
-					"<center>&7It will help me keep the skulls db up and for me",
-					"<center>&7to be able to provide updates regularly",
+					"<center>&7หากคุณชอบปลั๊กอินนี้ โปรดพิจารณาสนับสนุน",
+					"<center>&7ผู้พัฒนาบน Patreon เพียงเดือนละ &a$1 &7ขึ้นไป",
+					"<center>&7เพื่อช่วยให้ผมดูแลฐานข้อมูลหัวและ",
+					"<center>&7อัปเดตปลั๊กอินอย่างต่อเนื่อง",
 					"",
 					"<center>&6https://patreon.com/kiranhart",
 					""

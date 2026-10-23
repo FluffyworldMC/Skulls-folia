@@ -19,11 +19,10 @@
 package ca.tweetzy.skulls.manager;
 
 import ca.tweetzy.skulls.api.interfaces.Economy;
-import ca.tweetzy.skulls.impl.economy.CoinsEngineEconomy;
 import ca.tweetzy.skulls.impl.economy.ItemEconomy;
-import ca.tweetzy.skulls.impl.economy.UltraEconomyEconomy;
 import ca.tweetzy.skulls.impl.economy.VaultEconomy;
 import ca.tweetzy.skulls.settings.Settings;
+import ca.tweetzy.flight.utils.Common;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
@@ -67,26 +66,14 @@ public final class EconomyManager implements Economy {
 
 	public void init() {
 		if (Settings.ECONOMY.getString().equalsIgnoreCase("vault") && Bukkit.getServer().getPluginManager().isPluginEnabled("Vault")) {
-			this.economy = new VaultEconomy();
-		} else if (Settings.ECONOMY.getString().toLowerCase().startsWith("ultraeconomy:") && Bukkit.getServer().getPluginManager().isPluginEnabled("UltraEconomy")) {
-			final String[] ultraEconomyCurrencyName = Settings.ECONOMY.getString().split(":");
-
-			if (ultraEconomyCurrencyName.length < 2) {
-				this.economy = new ItemEconomy();
+			try {
+				this.economy = new VaultEconomy();
 				return;
+			} catch (IllegalStateException exception) {
+				Common.log("&cไม่พบผู้ให้บริการเศรษฐกิจของ Vault จะใช้ Item Economy แทน");
 			}
+		}
 
-			this.economy = new UltraEconomyEconomy(ultraEconomyCurrencyName[1]);
-		} else if (Settings.ECONOMY.getString().toLowerCase().startsWith("coinsengine:") && Bukkit.getServer().getPluginManager().isPluginEnabled("CoinsEngine")) {
-			final String[] coinsEngineCurrencyName = Settings.ECONOMY.getString().split(":");
-
-			if (coinsEngineCurrencyName.length < 2) {
-				this.economy = new ItemEconomy();
-				return;
-			}
-
-			this.economy = new CoinsEngineEconomy(coinsEngineCurrencyName[1]);
-		} else
-			this.economy = new ItemEconomy();
+		this.economy = new ItemEconomy();
 	}
 }

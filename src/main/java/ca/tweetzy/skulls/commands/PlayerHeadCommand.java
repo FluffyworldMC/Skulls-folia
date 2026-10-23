@@ -22,12 +22,14 @@ import ca.tweetzy.flight.command.AllowedExecutor;
 import ca.tweetzy.flight.command.Command;
 import ca.tweetzy.flight.command.ReturnType;
 import ca.tweetzy.flight.settings.TranslationManager;
+import ca.tweetzy.flight.comp.enums.CompMaterial;
 import ca.tweetzy.flight.utils.Common;
 import ca.tweetzy.flight.utils.QuickItem;
 import ca.tweetzy.skulls.Skulls;
 import ca.tweetzy.skulls.model.StringHelper;
 import ca.tweetzy.skulls.settings.Settings;
 import ca.tweetzy.skulls.settings.Translations;
+import ca.tweetzy.skulls.utils.SkullItems;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -54,36 +56,38 @@ public final class PlayerHeadCommand extends Command {
 			return ReturnType.INVALID_SYNTAX;
 		}
 
-		Bukkit.getServer().getScheduler().runTaskAsynchronously(Skulls.getInstance(), () -> {
-			if (args.length == 0) {
-				final Player executor = (Player) sender;
-				executor.getInventory().addItem(QuickItem.of(executor).name(Settings.PLAYER_HEAD_NAME.getString().replace("%player_name%", executor.getName())).make());
-				return;
-			}
+		final Player executor = sender instanceof Player ? (Player) sender : null;
+		final Player receiver = args.length == 3 ? Bukkit.getPlayerExact(args[2]) : executor;
 
-			OfflinePlayer targetUser = Bukkit.getPlayer(args[0]);
+		if (receiver == null) {
+			Common.tell(sender, TranslationManager.string(Translations.ERROR_PLAYER_OFFLINE, "value", args[2]));
+			return ReturnType.FAIL;
+		}
 
-			if (targetUser == null) {
-				targetUser = Bukkit.getOfflinePlayer(args[0]);
-			}
+		final OfflinePlayer targetUser;
+		if (args.length == 0) {
+			targetUser = executor;
+		} else {
+			final Player onlineTarget = Bukkit.getPlayerExact(args[0]);
+			targetUser = onlineTarget != null ? onlineTarget : Bukkit.getOfflinePlayer(args[0]);
+		}
 
-			final ItemStack item = QuickItem.of(targetUser)
-					.name(Settings.PLAYER_HEAD_NAME.getString().replace("%player_name%", targetUser.getName()))
-					.amount(args.length > 1 ? StringHelper.tryInt(args[1], 1) : 1)
-					.make();
+		if (targetUser == null) {
+			Common.tell(sender, TranslationManager.string(Translations.ERROR_PLAYER_NOT_FOUND, "value", args.length == 0 ? "?" : args[0]));
+			return ReturnType.FAIL;
+		}
 
-			if (args.length == 3) {
-				final Player targetPlayer = Bukkit.getPlayerExact(args[2]);
-				if (targetPlayer == null) {
-					Common.tell(sender, TranslationManager.string(Translations.PLAYER_OFFLINE, "value", args[2]));
-					return;
-				}
+		final int amount = args.length > 1 ? StringHelper.tryInt(args[1], 1) : 1;
+		final String targetName = targetUser.getName() == null ? (args.length == 0 ? receiver.getName() : args[0]) : targetUser.getName();
 
-				targetPlayer.getInventory().addItem(item);
-			} else {
-				final Player executor = (Player) sender;
-				executor.getInventory().addItem(item);
-			}
+		final ItemStack item = SkullItems.applyPlayer(QuickItem.of(CompMaterial.PLAYER_HEAD)
+				.name(Settings.PLAYER_HEAD_NAME.getString().replace("%player_name%", targetName))
+				.amount(amount)
+				.make(), targetUser);
+
+		Skulls.getTaskScheduler().runTask(receiver, () -> {
+			if (!receiver.isOnline()) return;
+			receiver.getInventory().addItem(item);
 		});
 
 		return ReturnType.SUCCESS;
@@ -106,6 +110,6 @@ public final class PlayerHeadCommand extends Command {
 
 	@Override
 	public String getDescription() {
-		return "Give yourself or player a player head";
+		return "มอบหัวผู้เล่นให้ตัวเองหรือผู้เล่นคนอื่น";
 	}
 }
