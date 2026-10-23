@@ -1,7 +1,4 @@
 input:
-  category-create:
-    subtitle: '&fพิมพ์รหัสของหมวดหมู่ใหม่ในแชท'
-    title: '&eสร้างหมวดหมู่'
   skull-edit:
     price: '&fพิมพ์ราคาใหม่ของหัวในแชท'
     name: '&fพิมพ์ชื่อใหม่ของหัวในแชท'
@@ -22,23 +19,6 @@ categories:
   humans: มนุษย์
   misc: เบ็ดเตล็ด
 gui:
-  custom-category-list:
-    title: '&eSkulls &8» &7หมวดหมู่ที่สร้างเอง'
-    items:
-      new:
-        lore:
-          - ''
-          - '&e&lคลิก &8» &7สร้างหมวดหมู่ใหม่'
-        name: '&a&lสร้างหมวดหมู่ใหม่'
-        error: '&cไม่สามารถสร้างหมวดหมู่ได้ กรุณาดูข้อมูลในคอนโซล'
-        empty: '&cกรุณากรอกรหัสหมวดหมู่'
-      category:
-        lore:
-          - '&7ดูหัวทั้งหมดในหมวดหมู่นี้'
-          - '&7จำนวนหัว&f: &b%category_size%'
-          - ''
-          - '&e&lคลิก &8» &7เปิดหมวดหมู่'
-        name: '&e%category_name%'
   skulls-list:
     title:
       all: '&eSkulls &8» &7ทั้งหมด'
@@ -78,11 +58,6 @@ gui:
           - ''
           - '&e&lคลิก &8» &7เปลี่ยนชื่อหัว'
         name: '&e&lชื่อหัว'
-      add-category:
-        lore:
-          - ''
-          - '&e&lคลิก &8» &7เพิ่มหัวนี้เข้าหมวดหมู่อื่น'
-        name: '&e&lเพิ่มเข้าหมวดหมู่'
   player-heads:
     title: '&eSkulls &8» &7หัวผู้เล่น'
     items:
@@ -124,11 +99,6 @@ gui:
           - ''
           - '&e&lคลิก &8» &7เปิดหัวผู้เล่น'
         name: '&e&lหัวผู้เล่น'
-      custom-categories:
-        lore:
-          - ''
-          - '&e&lคลิก &8» &7ดูหมวดหมู่ที่สร้างเอง'
-        name: '&e&lหมวดหมู่เพิ่มเติม'
       category:
         lore:
           - '&7ดูหัวทั้งหมดในหมวดหมู่นี้'
@@ -144,12 +114,6 @@ gui:
           - ''
           - '&e&lคลิก &8» &7รับหัวสุ่ม'
         name: '&e&lสุ่มหัว'
-  custom-category-selector:
-    title: '&eSkulls &8» &7เลือกหมวดหมู่'
-    items:
-      category:
-        lore: '&e&lคลิก &8» &7เลือกหมวดหมู่นี้'
-        name: '&e%category_name%'
   loading:
     lore: '&7กรุณารอสักครู่'
     name: '&e&lกำลังโหลด...'
@@ -176,7 +140,6 @@ misc:
   reload-success: '&aโหลดการตั้งค่าใหม่เรียบร้อยแล้ว'
   claim-delay: '&cคุณสามารถรับหัวได้อีกครั้งใน &7(&e%time_difference%&7)'
   purchase-success: '&aซื้อสำเร็จ'
-  id-taken: '&cรหัสหมวดหมู่นี้ถูกใช้งานแล้ว'
   skull-not-found: '&cไม่พบหัวที่มีรหัสนี้'
   player-head-given: '&aมอบหัวให้ &e%player_name% &aเรียบร้อยแล้ว'
   no-skull-info: '&cไม่สามารถระบุรหัสของหัวนี้ได้'

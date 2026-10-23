@@ -47,12 +47,6 @@ public final class _1_InitialMigration extends DataMigration {
 					"favourites TEXT" +
 					")");
 
-			statement.execute("CREATE TABLE IF NOT EXISTS " + tablePrefix + "categories (" +
-					"id VARCHAR(64) PRIMARY KEY, " +
-					"name VARCHAR(128) NOT NULL, " +
-					"skulls TEXT NULL" +
-					")");
-
 			statement.execute("CREATE TABLE IF NOT EXISTS " + tablePrefix + "skull (" +
 					"id INTEGER PRIMARY KEY, " +
 					"name VARCHAR(255) NOT NULL, " +

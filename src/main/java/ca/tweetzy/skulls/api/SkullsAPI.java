@@ -124,11 +124,4 @@ public interface SkullsAPI {
 	 * @return A Category object
 	 */
 	Category findCategory(@NonNull final String id);
-
-	/**
-	 * Get a list of all the custom categories.
-	 *
-	 * @return A list of categories.
-	 */
-	List<Category> getCustomCategories();
 }

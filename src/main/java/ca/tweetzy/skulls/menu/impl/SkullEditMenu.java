@@ -74,22 +74,6 @@ public final class SkullEditMenu extends Menu {
 					}));
 		}
 
-		final int addCategorySlot = MenuConfig.slot("edit.items.add-category", 32);
-		if (addCategorySlot >= 0) {
-			final ca.tweetzy.flight.utils.QuickItem addCategoryFallback = QuickItem.of(CompMaterial.BOOKSHELF)
-					.name(TranslationManager.string(getPlayer(), Translations.GUI_EDIT_ITEMS_ADD_CATEGORY_NAME))
-					.lore(TranslationManager.list(getPlayer(), Translations.GUI_EDIT_ITEMS_ADD_CATEGORY_LORE));
-
-			setButton(addCategorySlot, MenuConfig.item(getPlayer(), "edit.items.add-category", addCategoryFallback.make(), java.util.Map.of("skull_id", String.valueOf(this.skull.getId()))), click -> new CategorySelectMenu(this, click.player, selected -> {
-				if (!selected.getSkulls().contains(this.skull.getId())) {
-					selected.getSkulls().add(this.skull.getId());
-					selected.sync();
-				}
-
-				SkullEditMenu.this.open();
-			}).open());
-		}
-
 		final int blockedSlot = MenuConfig.slot("edit.items.blocked", 34);
 		if (blockedSlot >= 0) {
 			final ca.tweetzy.flight.utils.QuickItem blockedFallback = QuickItem.of(this.skull.isBlocked() ? CompMaterial.RED_STAINED_GLASS_PANE : CompMaterial.LIME_STAINED_GLASS_PANE)

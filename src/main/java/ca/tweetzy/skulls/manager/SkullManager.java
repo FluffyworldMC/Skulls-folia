@@ -100,10 +100,9 @@ public final class SkullManager implements Manager {
 
 	public List<Skull> getSkulls(String category) {
 		if (BaseCategory.getById(category) != null)
-
 			return this.skulls.values().stream().filter(skull -> skull.getCategory().equalsIgnoreCase(category)).collect(Collectors.toList());
 
-		return this.skulls.values().stream().filter(skull -> Skulls.getCategoryManager().findCategory(category).getSkulls().contains(skull.getId())).collect(Collectors.toList());
+		return Collections.emptyList();
 	}
 
 	public Skull getRandomSkull() {

@@ -92,17 +92,6 @@ public final class MainMenu extends Menu {
 			});
 		}
 
-		final int customCategoriesSlot = MenuConfig.slot("main.items.custom-categories", 38);
-		if (MenuConfig.enabled("main.items.custom-categories", true) && customCategoriesSlot >= 0) {
-			final ItemStack fallback = QuickItem.of(SkullItem.get("skulls:25001"))
-					.name(TranslationManager.string(getPlayer(), Translations.GUI_MAIN_ITEMS_CUSTOM_CATEGORIES_NAME))
-					.lore(TranslationManager.list(getPlayer(), Translations.GUI_MAIN_ITEMS_CUSTOM_CATEGORIES_LORE))
-					.make();
-
-			setButton(customCategoriesSlot, MenuConfig.item(getPlayer(), "main.items.custom-categories", fallback),
-					click -> new CustomCategoryListMenu(click.player, this).open());
-		}
-
 		if (Settings.CATEGORIES_PLAYER_HEADS_ENABLED.getBoolean()) {
 			final int playerHeadsSlot = MenuConfig.slot("main.items.player-heads", 39);
 			if (MenuConfig.enabled("main.items.player-heads", true) && playerHeadsSlot >= 0) {

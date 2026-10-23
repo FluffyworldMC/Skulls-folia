@@ -87,9 +87,4 @@ public final class SkullsAPIImplementation implements SkullsAPI {
 	public Category findCategory(@NonNull String id) {
 		return Skulls.getCategoryManager().findCategory(id);
 	}
-
-	@Override
-	public List<Category> getCustomCategories() {
-		return Skulls.getCategoryManager().getCustomCategories();
-	}
 }

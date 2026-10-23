@@ -77,14 +77,6 @@ main:
       lore:
         -
         - '&e&lคลิก &8» &7ค้นหาหัว'
-    custom-categories:
-      material: PLAYER_HEAD
-      texture: 'skulls:25001'
-      slot: 38
-      display_name: '&e&lหมวดหมู่เพิ่มเติม'
-      lore:
-        -
-        - '&e&lคลิก &8» &7ดูหมวดหมู่ที่สร้างเอง'
     player-heads:
       player_head: true
       slot: 39
@@ -156,13 +148,6 @@ edit:
       lore:
         -
         - '&e&lคลิก &8» &7แก้ไขราคาหัว'
-    add-category:
-      material: BOOKSHELF
-      slot: 32
-      display_name: '&e&lเพิ่มเข้าหมวดหมู่'
-      lore:
-        -
-        - '&e&lคลิก &8» &7เพิ่มหัวนี้เข้าหมวดหมู่อื่น'
     blocked:
       slot: 34
       display_name: '&e&lสถานะการบล็อก'
@@ -171,34 +156,6 @@ edit:
         - '&7ถูกบล็อก&f: %is_true%'
         -
         - '&e&lคลิก &8» &7สลับสถานะการบล็อก'
-category-selector:
-  title: '&eSkulls &8» &7เลือกหมวดหมู่'
-  rows: 6
-  item:
-    material: WRITTEN_BOOK
-    display_name: '&e%category_name%'
-    lore:
-      - '&7จำนวนหัว&f: &b%category_size%'
-      -
-      - '&e&lคลิก &8» &7เลือกหมวดหมู่นี้'
-custom-category-list:
-  title: '&eSkulls &8» &7หมวดหมู่ที่สร้างเอง'
-  rows: 6
-  item:
-    material: WRITTEN_BOOK
-    display_name: '&e%category_name%'
-    lore:
-      - '&7ดูหัวทั้งหมดในหมวดหมู่นี้'
-      - '&7จำนวนหัว&f: &b%category_size%'
-      -
-      - '&e&lคลิก &8» &7เปิดหมวดหมู่'
-  new-category:
-    material: SLIME_BALL
-    slot: 40
-    display_name: '&a&lสร้างหมวดหมู่ใหม่'
-    lore:
-      -
-      - '&e&lคลิก &8» &7สร้างหมวดหมู่ใหม่'
 player-heads:
   title: '&eSkulls &8» &7หัวผู้เล่น'
   rows: 6

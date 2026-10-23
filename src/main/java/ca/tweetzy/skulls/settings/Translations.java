@@ -50,7 +50,6 @@ public final class Translations extends TranslationManager {
 	public static final TranslationEntry SKULL_NOT_FOUND = create("misc.skull-not-found", "&cไม่พบหัวที่มีรหัสนี้");
 	public static final TranslationEntry NO_SKULL_INFO = create("misc.no-skull-info", "&cไม่สามารถระบุรหัสของหัวนี้ได้");
 	public static final TranslationEntry SKULL_TITLE = create("skull.name", "&e%skull_name%");
-	public static final TranslationEntry ID_TAKEN = create("misc.id-taken", "&cรหัสหมวดหมู่นี้ถูกใช้งานแล้ว");
 	public static final TranslationEntry CLAIM_DELAY = create("misc.claim-delay", "&cคุณสามารถรับหัวได้อีกครั้งใน &7(&e%time_difference%&7)");
 	public static final TranslationEntry RECEIVED_RANDOM_SKULL = create("misc.received-random-skull", "&aคุณได้รับหัวสุ่ม &f(&e%skull_name%&f)");
 	public static final TranslationEntry PURCHASE_SUCCESS = create("misc.purchase-success", "&aซื้อสำเร็จ");
@@ -81,9 +80,6 @@ public final class Translations extends TranslationManager {
 
 	public static final TranslationEntry INPUT_SKULL_SEARCH_TITLE = create("input.skull-search.title", "&eค้นหาหัว");
 	public static final TranslationEntry INPUT_SKULL_SEARCH_SUBTITLE = create("input.skull-search.subtitle", "&fพิมพ์คำค้นหาในแชท");
-
-	public static final TranslationEntry INPUT_CATEGORY_CREATE_TITLE = create("input.category-create.title", "&eสร้างหมวดหมู่");
-	public static final TranslationEntry INPUT_CATEGORY_CREATE_SUBTITLE = create("input.category-create.subtitle", "&fพิมพ์รหัสของหมวดหมู่ใหม่ในแชท");
 
 	public static final TranslationEntry INSPECT_INFO = create("inspect-info",
 			"&8&m-----------------------------------------------------",
@@ -128,32 +124,6 @@ public final class Translations extends TranslationManager {
 			"&e&lคลิก &8» &7ไปหน้าถัดไป"
 	);
 
-	public static final TranslationEntry GUI_CUSTOM_CATEGORY_SELECTOR_TITLE = create("gui.custom-category-selector.title", "&eSkulls &8» &7เลือกหมวดหมู่");
-
-	public static final TranslationEntry GUI_CUSTOM_CATEGORY_SELECTOR_ITEMS_CATEGORY_NAME = create("gui.custom-category-selector.items.category.name", "&e%category_name%");
-
-	public static final TranslationEntry GUI_CUSTOM_CATEGORY_SELECTOR_ITEMS_CATEGORY_LORE = create("gui.custom-category-selector.items.category.lore",
-			"&e&lคลิก &8» &7เลือกหมวดหมู่นี้"
-	);
-
-	public static final TranslationEntry GUI_CUSTOM_CATEGORY_LIST_TITLE = create("gui.custom-category-list.title", "&eSkulls &8» &7หมวดหมู่ที่สร้างเอง");
-
-	public static final TranslationEntry GUI_CUSTOM_CATEGORY_LIST_ITEMS_CATEGORY_NAME = create("gui.custom-category-list.items.category.name", "&e%category_name%");
-
-	public static final TranslationEntry GUI_CUSTOM_CATEGORY_LIST_ITEMS_CATEGORY_LORE = create("gui.custom-category-list.items.category.lore",
-			"&7ดูหัวทั้งหมดในหมวดหมู่นี้",
-			"&7จำนวนหัว&f: &b%category_size%",
-			"",
-			"&e&lคลิก &8» &7เปิดหมวดหมู่"
-	);
-
-	public static final TranslationEntry GUI_CUSTOM_CATEGORY_LIST_ITEMS_NEW_NAME = create("gui.custom-category-list.items.new.name", "&a&lสร้างหมวดหมู่ใหม่");
-
-	public static final TranslationEntry GUI_CUSTOM_CATEGORY_LIST_ITEMS_NEW_LORE = create("gui.custom-category-list.items.new.lore", "", "&e&lคลิก &8» &7สร้างหมวดหมู่ใหม่");
-
-	public static final TranslationEntry GUI_CUSTOM_CATEGORY_LIST_ITEMS_NEW_ERROR = create("gui.custom-category-list.items.new.error", "&cไม่สามารถสร้างหมวดหมู่ได้ กรุณาดูข้อมูลในคอนโซล");
-	public static final TranslationEntry GUI_CUSTOM_CATEGORY_LIST_ITEMS_NEW_EMPTY = create("gui.custom-category-list.items.new.empty", "&cกรุณากรอกรหัสหมวดหมู่");
-
 	public static final TranslationEntry GUI_PLAYER_HEADS_TITLE = create("gui.player-heads.title", "&eSkulls &8» &7หัวผู้เล่น");
 	public static final TranslationEntry GUI_PLAYER_HEADS_ITEMS_HEAD_NAME = create("gui.player-heads.items.head.name", "&e%player_name%");
 	public static final TranslationEntry GUI_PLAYER_HEADS_UNKNOWN_NAME = create("gui.player-heads.items.unknown.name", "&eผู้เล่นที่ไม่รู้จัก");
@@ -167,10 +137,6 @@ public final class Translations extends TranslationManager {
 	public static final TranslationEntry GUI_EDIT_ITEMS_PRICE_NAME = create("gui.edit.items.price.name", "&e&lราคาหัว");
 
 	public static final TranslationEntry GUI_EDIT_ITEMS_PRICE_LORE = create("gui.edit.items.price.lore", "", "&e&lคลิก &8» &7แก้ไขราคาหัว");
-
-	public static final TranslationEntry GUI_EDIT_ITEMS_ADD_CATEGORY_NAME = create("gui.edit.items.add-category.name", "&e&lเพิ่มเข้าหมวดหมู่");
-
-	public static final TranslationEntry GUI_EDIT_ITEMS_ADD_CATEGORY_LORE = create("gui.edit.items.add-category.lore", "", "&e&lคลิก &8» &7เพิ่มหัวนี้เข้าหมวดหมู่อื่น");
 
 	public static final TranslationEntry GUI_EDIT_ITEMS_BLOCKED_NAME = create("gui.edit.items.blocked.name", "&e&lสถานะการบล็อก");
 
@@ -219,13 +185,6 @@ public final class Translations extends TranslationManager {
 	public static final TranslationEntry GUI_MAIN_ITEMS_SEARCH_LORE = create("gui.main.items.search.lore",
 			"",
 			"&e&lคลิก &8» &7ค้นหาหัว"
-	);
-
-	public static final TranslationEntry GUI_MAIN_ITEMS_CUSTOM_CATEGORIES_NAME = create("gui.main.items.custom-categories.name", "&e&lหมวดหมู่เพิ่มเติม");
-
-	public static final TranslationEntry GUI_MAIN_ITEMS_CUSTOM_CATEGORIES_LORE = create("gui.main.items.custom-categories.lore",
-			"",
-			"&e&lคลิก &8» &7ดูหมวดหมู่ที่สร้างเอง"
 	);
 
 	public static final TranslationEntry GUI_SKULLS_LIST_TITLE_CATEGORY = create("gui.skulls-list.title.category", "&eSkulls &8» &7%category_name%");
